@@ -8,10 +8,8 @@ import Transactions from "./transactions"
  * @param {string} name - The name of the bank.
  */
 class Bank {
-
     name: string
     branches: Array<Branch>
-
     /**
      * Creates a new Bank instance.
      * @constructor
@@ -31,26 +29,30 @@ class Bank {
     addBranch(branch:Branch): boolean {
         if (!this.branches.includes(branch)) {
             this.branches.push(branch)
+            // console.log(`${branch.getName()} has been added to bank`)
             return true
         } 
         else {
+            // console.log(`${branch.getName()} already exist`)
             return false
         }
     }
 
      /**
      * Adds a customer to a branch.
-     * @param {string} branch - The name of the branch to add the customer to.
+     * @param {Branch} branch - The name of the branch to add the customer to.
      * @param {Customer} customer - The customer to add.
      * @return {boolean} - `true` if the customer was added successfully, `false` otherwise.
      */
-    addCustomer(branch:string, customer:Customer): boolean {
-        const targetBranch = this.branches.find(b => b.getName() === branch)
+    addCustomer(branch:Branch, customer:Customer): boolean {
+        const targetBranch = this.branches.find(b => b === branch)
         if (targetBranch && !targetBranch.getCustomers().includes(customer)) {
             targetBranch.addCustomer(customer)
+            //  console.log(`Customer ${customer.getName()} has been added to ${branch.getName()}`)
             return true
         }
         else {
+            // console.log(`Customer ${customer.getName()} already exist ${branch.getName()}`)
             return false
         }
     }
@@ -77,7 +79,7 @@ class Bank {
      * @return {Array<Branch>} - An array of branches with the given name.
      */
     findBranchByName(branchName:string) {
-        return this.branches.filter(branch => branch.getName() === branchName)
+        return this.branches.filter(branch => branch.getName().includes(branchName))
     }
 
     /**
@@ -95,19 +97,22 @@ class Bank {
      * @param {boolean} showTransactionsDetails - Whether to show transaction details for each customer.
      * @returns {boolean} - True if the branch is found and the customers are listed, false otherwise.
      */
-    listCustomers(branchName:string, showTransactionsDetails:boolean):boolean {
-        const targetBranch = this.findBranchByName(branchName)
-        if (targetBranch.length > 0) {
-            if (showTransactionsDetails) {
-                for (let customer of targetBranch[0].getCustomers()) {
-                    console.log(`${customer.getName()}: ${customer.getTransactions()}` )
-                }
-            }
-            return true
+    listCustomers(branchName: Branch, showTransactionsDetails: boolean): boolean {
+        const customers = branchName.getCustomers();
+        if (customers.length === 0) {
+            return false;
         }
-        else {
-            return false
+
+        if (showTransactionsDetails) {
+            customers.forEach(customer => {
+                console.log(`${customer.getName()}: ${customer.getTransactions()}`);
+            });
+        } else {
+            customers.forEach(customer => {
+                console.log(customer.getName());
+            });
         }
+        return true;
     }
 }
 
