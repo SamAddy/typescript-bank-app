@@ -13,8 +13,6 @@ arizonaBank.addBranch(westBranch)
 arizonaBank.addBranch(sunBranch)
 arizonaBank.addBranch(westBranch) 
 
-
-
 arizonaBank.findBranchByName("Sun") // returns [Branch: "name": "Sun Branch", "customers": [] }] 
 arizonaBank.findBranchByName("bank") // returns []
 
