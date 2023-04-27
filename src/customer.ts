@@ -6,7 +6,6 @@ import Transactions from "./transactions"
  * 
  */
 class Customer {
-
     name: string
     private id: string
     transactions: Transactions[]
@@ -65,7 +64,7 @@ class Customer {
      * @returns {number} The account balance of the customer.
      */
     getBalance() {
-        const accountBalance = this.transactions.reduceRight((acc, cur) => Number(acc) + Number(cur), 0)
+        const accountBalance = this.transactions.reduceRight((balance, transaction) => Number(balance) + Number(transaction.amount), 0)
         return accountBalance
     }
 
